@@ -1,2 +1,53 @@
 /* Is Unique: Implement an algorithm to determine if a string has all unique characters. What if you cannot use additional data structures?
 */
+
+package ChapterOne;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class IsUnique {
+
+    public IsUnique() {}
+
+    //without data structure
+    public boolean computeWithoutDataStructure(String str) {
+        boolean isUnique = true;
+        for(int i = 0; i < str.length(); i++) {
+            char currentLetter = str.charAt(i);
+            int count = 0;
+            for(int j = 0; j < str.length(); j++) {
+                if(str.charAt(j) == currentLetter) {
+                    count++;
+                    if(count > 1) {
+                        isUnique = false;
+                    }
+                }
+            }
+        }
+        return isUnique;
+    }
+
+    public boolean compute(String str) {
+        boolean isUnique = true;
+        Map<Character, Integer> characterMap = new HashMap<>();
+        for(int i = 0; i < str.length(); i++) {
+            int count = 0;
+            if(characterMap.get(str.charAt(i)) == null) {
+                count++;
+                characterMap.put(str.charAt(i), count);
+            } else {
+                count = characterMap.get(str.charAt(i)) + 1;
+                characterMap.replace(str.charAt(i), count);
+            }
+
+        }
+        for(Map.Entry<Character, Integer> entry : characterMap.entrySet()) {
+            if(entry.getValue() > 1) {
+                isUnique = false;
+            }
+        }
+        return isUnique;
+    }
+}
